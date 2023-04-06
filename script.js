@@ -26,28 +26,47 @@ $(".btn").click(function (){
   // past, present, and future classes? How can Day.js be used to get the
   // current hour in 24-hour time?
 
-const time = dayjs().format('hhA');
-//const currentTime = dayjs().hour();
+  const time = dayjs().format('hhA');
+
 classChanger();
+
 function classChanger() {
-  console.log()
+
   var hourX = $(this).parent().attr('id');
- $(".hour").each(function(i,obj){
+  $(".hour").each(function(i,obj){
   var dVal = $(obj).text();
+  var tArea = $(obj).siblings("textarea").first();
   console.log(dVal);
  
-      if (time.includes(dVal)) {
-        $(obj).addClass("present");
+     
+      if (time.includes('PM') && dVal.includes('AM')){
+        $(tArea).addClass("past");
+      }
+      var tDigit = parseInt(time);
+      var dDigit = parseInt(dVal);
+
+      if (time.includes('AM') && dVal.includes('AM')){
+        if (tDigit>dVal){
+          $(tArea).addClass("future");
+        } else {
+          $(tArea).addClass("past");
+        }
+        if (tDigit == dVal) {
+          $(tArea).addClass("present");
+        }
       } 
-      if (time.icludes('PM') && dVal.includes('AM'))
-        $(obj).addClass("past");
-/*
-      $("div.row").addClass("past");
-      } else if (hourX == time) {
-      $("div.row").addClass("present");
-      } else {
-      $("div.row").addClass("future");
-      }*/
+      if (time.includes('PM') && dVal.includes('PM')){
+        if (tDigit>dVal){
+          $(tArea).addClass("future");
+        } else {
+          $(tArea).addClass("past");
+        }
+        if (tDigit == dVal) {
+          $(tArea).addClass("present");
+        }
+      } 
+
+
   });
 }
 
@@ -56,7 +75,17 @@ function classChanger() {
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
   
+getStorage();
+
+  function getStorage() {
+    $('.row').each(function(i,obj){
+      var dId = $(obj).attr("id");
+      var notes = window.localStorage.getItem(dId) || "";
+      $(obj).children("textarea").text(notes);
+    });
+  }
+
   // TODO: Add code to display the current date in the header of the page.~DONE~
   var headerDate = dayjs().format('MMMM DD YYYY'); 
   $(currentDay).text(headerDate);
-})
+});
