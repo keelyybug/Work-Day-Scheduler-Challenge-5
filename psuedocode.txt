@@ -1,0 +1,18 @@
+------------------ past present future -----------------
+maybe take away "past present and future out of the html and just make them a variable so they can be added in js only
+
+getHours() will probably be helpfull
+
+function classChanger() {
+
+        for (let i = 0; i > 24; i++) {
+                if(i > date_time.getHours) {
+                        $("<div>").addClass("future")
+                }if(i < date_time.getHours) {
+                        $("<div>").addClass("past")
+                }if(i = date_time.getHours) {
+                        $("<div>").addClass("present")
+                }
+        }
+}
+
